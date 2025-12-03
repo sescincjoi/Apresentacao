@@ -671,7 +671,7 @@ function computeFiltered() {
     if (s.isConforme) conf++;
     if (s.isNaoConforme) {
       naoConf++;
-      naoConfList.push({ id: ext.id, num: ext['Nº'], situacao: ext['SITUAÇÃO'], naoConformidade: ext['Não conformidade'], observacao: ext['Observação'] });
+      naoConfList.push({ id: ext.id, num: ext['Nº'], Tipo/Kg: ext['Tipo Kg'], situacao: ext['SITUAÇÃO'], naoConformidade: ext['Não conformidade'], observacao: ext['Observação'] });
     }
     if (s.isAlert) { alerts++; alertsList.push({ id: ext.id, num: ext['Nº'], local: ext['Local'], details: s.alertDetails }); }
   });
