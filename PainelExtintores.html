@@ -671,7 +671,7 @@ function computeFiltered() {
     if (s.isConforme) conf++;
     if (s.isNaoConforme) {
       naoConf++;
-      naoConfList.push({ id: ext.id, num: ext['Nº'], Tipo/Kg: ext['Tipo Kg'], situacao: ext['SITUAÇÃO'], naoConformidade: ext['Não conformidade'], observacao: ext['Observação'] });
+      naoConfList.push({ id: ext.id, num: ext['Nº'], Tipokg: ext['Tipo Kg'], situacao: ext['SITUAÇÃO'], naoConformidade: ext['Não conformidade'], observacao: ext['Observação'] });
     }
     if (s.isAlert) { alerts++; alertsList.push({ id: ext.id, num: ext['Nº'], local: ext['Local'], details: s.alertDetails }); }
   });
@@ -828,6 +828,7 @@ function renderDashboardSection(container) {
       card.className = 'p-4 border border-red-200 rounded-lg cursor-pointer hover:bg-red-50 transition';
       card.onclick = () => { state.selectedExtinguisher = state.data.find(e=>e.id===item.id); state.showModal = 'panel'; render(); };
       card.innerHTML = `<p class="font-bold text-lg text-red-800">Nº ${item.num}</p>
+        <p class="text-sm mt-1"><span class="font-semibold">Tipo/Kg:</span> <span class="text-red-600">${item.Tipokg}</span></p>
         <p class="text-sm mt-1"><span class="font-semibold">Situação:</span> <span class="text-red-600">${item.situacao}</span></p>
         <p class="text-sm"><span class="font-semibold">Não conformidade:</span> ${item.naoConformidade || '-'}</p>
         <p class="text-xs text-gray-600 mt-1"><span class="font-semibold">Observação:</span> ${item.observacao || '-'}</p>`;
