@@ -727,7 +727,7 @@ function renderDashboardSection(container) {
   });
   container.appendChild(kpiGrid);
 
-  // Chart area (doughnut)
+/*  // Chart area (doughnut)
   const chartWrap = document.createElement('div'); chartWrap.className = 'painel-grafico bg-white p-6 rounded-xl shadow-lg mt-6';
   const chartHeader = document.createElement('div'); chartHeader.className = 'flex items-center justify-between mb-4';
   chartHeader.innerHTML = `<h3 class="text-xl font-bold text-gray-800">Gráfico de Distribuição</h3>`;
@@ -814,7 +814,32 @@ function renderDashboardSection(container) {
 
   chartWrap.appendChild(chartArea);
   container.appendChild(chartWrap);
+*/
 
+  // compute chart data
+  const chartData = {};
+  state.data.filter(ext => ext[state.chartSourceKey] && ext[state.chartSourceKey] !== '-').forEach(ext => {
+    const key = String(ext[state.chartSourceKey]);
+    chartData[key] = (chartData[key] || 0) + 1;
+  });
+  const total = Object.values(chartData).reduce((s,c)=>s+c,0);
+  // create chart area
+  const chartArea = document.createElement('div'); chartArea.className = 'flex flex-col md:flex-row items-start justify-center';
+  if (total === 0) {
+    chartArea.innerHTML = '<p class="text-center text-gray-500">Sem dados para o gráfico.</p>';
+  } else {
+    // convert to values
+    let currentAngle = 0;
+    const totalEntries = Object.keys(chartData).length;
+    const entries = Object.entries(chartData).map(([name,count], idx) => {
+      const percent = (count / total) * 100;
+      const color = `hsl(${(idx * 360 / totalEntries)} 70% 60%)`;
+      const startAngle = currentAngle;
+      const endAngle = currentAngle + percent*3.6;
+      currentAngle = endAngle;
+      return { name, value: count, percent: percent.toFixed(1), color, startAngle, endAngle };
+    }).filter(i => i.value>0);
+    
   // Non-conformities list
   const nonConfWrap = document.createElement('div'); nonConfWrap.id = 'non-conformity-list'; nonConfWrap.className = 'bg-white p-6 rounded-xl shadow-lg mt-6';
   nonConfWrap.innerHTML = `<h3 class="text-xl font-bold text-red-600 mb-4 flex items-center">❌ Extintores Não Conformes (${nonConformingList.length})</h3>`;
